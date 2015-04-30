@@ -2,10 +2,10 @@
 return [
     'components' => [
         'db' => [
-            'dsn' => 'mysql:host=localhost;dbname=seokeys',
+            'dsn' => 'mysql:host=localhost;dbname=tigerbet',
             'username' => 'root',
             'password' => '',
-            'tablePrefix' => 'keys_',
+            'tablePrefix' => 'b_',
         ],
         'mailer' => [
             'useFileTransport' => true,

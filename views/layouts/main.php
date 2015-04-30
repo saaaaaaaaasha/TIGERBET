@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+use app\components\widgets\Alert;
 use app\assets\AppAsset;
 
 /* @var $this \yii\web\View */
@@ -26,7 +27,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'My Company',
+                'brandLabel' => Yii::$app->name,
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -34,16 +35,18 @@ AppAsset::register($this);
             ]);
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [
-                    ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
+                'items' => array_filter([
+                    ['label' => Yii::t('app', 'NAV_HOME'), 'url' => ['/main/default/index']],
+                    ['label' => Yii::t('app', 'NAW_CONTACT'), 'url' => ['/main/contact/index']],
                     Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/site/logout'],
+                        ['label' => Yii::t('app', 'NAV_SIGNUP'), 'url' => ['/user/default/signup']] :
+                        false,
+                    Yii::$app->user->isGuest ?
+                        ['label' => Yii::t('app', 'NAV_LOGIN'), 'url' => ['/user/default/login']] :
+                        ['label' => Yii::t('app', 'NAV_LOGOUT'),
+                            'url' => ['/user/default/logout'],
                             'linkOptions' => ['data-method' => 'post']],
-                ],
+                ]),
             ]);
             NavBar::end();
         ?>
@@ -52,6 +55,7 @@ AppAsset::register($this);
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
+            <?= Alert::widget() ?>
             <?= $content ?>
         </div>
     </div>
